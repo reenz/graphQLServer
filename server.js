@@ -9,13 +9,31 @@ const host = "0.0.0.0";
 //graphql schema
 const schema = buildSchema(`
 type Query{
-  message: String
+  course(id: Int!): Course
+},
+type Course {
+  id: Int
+  title: String
 }
 `);
 
+const courseData = [
+  {
+    id: 1,
+    title: "GraphQL"
+  }
+]
+
+const getCourse = function(args){
+  const id = args.id
+  return courseData.filter(course => {
+    return course.id == id;
+  })[0];
+}
+
 //root resolver
 const root = {
-  message: () => 'Hello World!'
+  course: getCourse
 };
 
 //express server and graphql endpoint
