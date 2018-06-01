@@ -9,7 +9,7 @@ const host = "0.0.0.0";
 //graphql schema
 const schema = buildSchema(`
 type Query{
-  course(title: String): Course
+  course(id: Int!): Course
 },
 type Course {
   id: Int
@@ -21,13 +21,17 @@ const courseData = [
   {
     id: 1,
     title: "GraphQL"
+  },
+  {
+    id: 2,
+    title: "Express"
   }
 ]
 
 const getCourse = function(args){
-  const title = args.title
+  const id = args.id
   return courseData.filter(course => {
-    return course.title == title;
+    return course.id == id;
   })[0];
 }
 
