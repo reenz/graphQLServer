@@ -11,10 +11,14 @@ const schema = buildSchema(`
 type Query{
   course(id: Int!): Course
 },
+type Mutation {
+  updateTitle(id: Int!, title: String): Course
+}
 type Course {
   id: Int
   title: String
 }
+
 `);
 
 const courseData = [
@@ -35,9 +39,20 @@ const getCourse = function(args){
   })[0];
 }
 
+const updateTitle = function({id, title}) {
+  courseData.map(course => {
+    if (course.id === id) {
+      course.title = title;
+      return course;
+    }
+  });
+  return courseData.filter(course => course.id === id)[0];
+}
+
 //root resolver
 const root = {
-  course: getCourse
+  course: getCourse,
+  updateTitle: updateTitle
 };
 
 //express server and graphql endpoint
